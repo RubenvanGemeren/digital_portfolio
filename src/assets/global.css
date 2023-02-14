@@ -10,7 +10,17 @@ body {
   src: url("HyliaSerifBeta-Regular.otf") format("opentype");
 }
 
+@font-face {
+  font-family: RobotoMono-Bold;
+  src: url(RobotoMono-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: RobotoMono-Medium;
+  src: url(RobotoMono-Medium.ttf) format("truetype");
+}
+
 h1 {
-  font-family: HyliaSerif;
+  font-family: RobotoMono-Medium;
   letter-spacing: 4px;
 }
