@@ -1,0 +1,24 @@
+{
+    "Project 1" : {
+        "id": 1,
+        "name": "test_name",
+        "description": "test description",
+        "start": "Not yet started",
+        "end": "Current",
+        "tags": ["fun"],
+        "languages": ["PHP"],
+        "location": ["Rotterdam"],
+        "grade": "8"
+    },
+    "Project 2" : { 
+        "id": 2,
+        "name": "test name 2",
+        "description": "test description 2",
+        "start": "Not yet started",
+        "end": "Current",
+        "tags": ["fun"],
+        "languages": ["PHP"],
+        "location": ["Rotterdam"],
+        "grade": "10"
+    }
+}
