@@ -3,13 +3,19 @@
         <p>Order by {{ order }}</p>
         <transition-group name="list" tag="ul">
             <li v-for="project in orderedProjects" :key="project.id">
-                <h2>Project named: {{ project.name }}</h2>
+              <router-link
+                :to="`/projects/${project.id}`"
+                custom
+                v-slot="{ navigate }"
+              >
+                <h2 @click="navigate">Project named: {{ project.name }}</h2>
                 <div class="tags">
                     <img src="../assets/rupee.svg" alt="rupee icon">
                     <p>tags: {{ project.tags }}</p>
                     <p>languages: {{ project.languages }}</p>
                 </div>
                 <div class="description"><p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit totam est inventore sit animi architecto enim corporis molestiae eveniet, tempora voluptas doloribus aperiam, corrupti dolores quos voluptatem sunt ab tempore.</p></div>
+              </router-link>
             </li>
         </transition-group>
     </div>
