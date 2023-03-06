@@ -6,10 +6,9 @@
 					<h2>And i'm a software developer. For the past 5 years I have grown from complete beginner to working with many companies realizing innovative solutions on problems ranging from security to optimalization</h2>
 				</div>
 			<div class="order">
-					<button @click="handleClick('clear')">Clear filter</button>
-					<button @click="handleClick('work')">Select work</button>
-					<button @click="handleClick('PHP')">Select PHP</button>
-					<!-- <button @click="handleClick('Laravel')">order by location</button> -->
+				<button @click="handleClick('clear')">Clear filter</button>
+				<button @click="handleClick('work')">Select work</button>
+				<button @click="handleClick('PHP')">Select PHP</button>
 			</div>
 			</header>
 		<ProjectList :projects="projects" :order="order"/>
@@ -31,30 +30,27 @@ export default defineComponent ({
 	components: { ProjectList },
 	setup() {
 
-	console.log(ProjectData);
+	const projects: Project[] = [];
 
-	let projects2: Project[] = [];
-
-	// Fix this
-	for (const project in ProjectData) {
-		let projectObject = ProjectData[project as keyof typeof ProjectData];
 		try {
-			projects2.push();
-			let	projectObj: Project = project;
-			console.log(projectObj);
-			
+			for (const key in ProjectData) {
+				const project = ProjectData[key as keyof typeof ProjectData];
+				const projectObject: Project = {
+					id: project.id,
+					name: project.name,
+					description: project.description,
+					start: new Date(project.start),
+					end: new Date(project.end),
+					tags: project.tags.map((tag: string) => tag as ProjectTag),
+					languages: project.languages.map((language: string) => language as ProjectLanguage),
+					location: project.location,
+					grade: project.grade,
+				};
+					projects.push(projectObject);
+			}
 		} catch (error) {
-			console.log(error);
-		}
-	}
-	
-		
-
-	const projects = ref<Project[]>([
-		{id: 1, name: 'test name', description: 'test description', start: 'Not yet started', end: 'Current', tags: ['fun'], languages: ['PHP'], location: 'Rotterdam', grade: '8' },
-		{id: 2, name: 'test name 2', description: 'test description 2', start: 'Not yet started', end: 'Current', tags: ['work'], languages: ['Laravel'], location: 'Rotterdam', grade: '9' },
-		{id: 3, name: 'test name 3', description: 'test description 3', start: 'Not yet started', end: 'Current', tags: ['work'], languages: ['Laravel'], location: 'Rotterdam', grade: '9' },
-	])
+			console.error(error);
+		}	
 
 	const order = ref<ProjectOrderTerm>('clear')
 
