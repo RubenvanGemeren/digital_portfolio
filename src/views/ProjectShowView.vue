@@ -1,6 +1,18 @@
 <template>
     <div class="projectsShow">
       <h1>This is the projects page for project: {{ $route.params.id }}</h1>
+      <h1>Project Details</h1>
+      <ul>
+        <li> {{ projectItem?.id }} </li>
+        <li> {{ projectItem?.name }} </li>
+        <li> {{ projectItem?.description }} </li>
+        <li> {{ projectItem?.start }} </li>
+        <li> {{ projectItem?.end }} </li>
+        <li> {{ projectItem?.tags }} </li>
+        <li> {{ projectItem?.languages }} </li>
+        <li> {{ projectItem?.location }} </li>
+        <li> {{ projectItem?.grade }} </li>
+      </ul>
     </div>
 </template>
 
