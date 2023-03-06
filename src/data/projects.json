@@ -3,22 +3,33 @@
         "id": 1,
         "name": "test_name",
         "description": "test description",
-        "start": "Not yet started",
-        "end": "Current",
+        "start": "1-1-2023",
+        "end": "6-3-2023",
         "tags": ["fun"],
         "languages": ["PHP"],
-        "location": ["Rotterdam"],
+        "location": "Rotterdam",
         "grade": "8"
     },
     "Project 2" : { 
         "id": 2,
         "name": "test name 2",
         "description": "test description 2",
-        "start": "Not yet started",
-        "end": "Current",
+        "start": "1-1-2023",
+        "end": "1-5-2023",
         "tags": ["fun"],
         "languages": ["PHP"],
-        "location": ["Rotterdam"],
+        "location": "Rotterdam",
+        "grade": "10"
+    },
+    "Project 3" : { 
+        "id": 3,
+        "name": "test name 3",
+        "description": "test description 23",
+        "start": "2-1-2023",
+        "end": "1-7-2023",
+        "tags": ["work"],
+        "languages": ["C#"],
+        "location": "Rotterdam",
         "grade": "10"
     }
 }
