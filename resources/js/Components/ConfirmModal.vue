@@ -104,10 +104,10 @@ const maxWidthClass = computed(() => {
 
                             <div class="mt-6 flex justify-between">
                                 <slot name="actions">
-                                    <n-button @click="confirm" quaternary strong dashed round type="success" size="medium">
+                                    <n-button @click="confirm" quaternary strong round type="success" size="medium">
                                         Yes, continue!
                                     </n-button>
-                                    <n-button @click="close" quaternary strong dashed round type="error" size="large">
+                                    <n-button @click="close" quaternary strong round type="error" size="large">
                                         Oops! No cancel
                                     </n-button>
                                 </slot>
