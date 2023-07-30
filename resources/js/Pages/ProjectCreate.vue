@@ -18,6 +18,24 @@ const confirmLang = ref(false);
 const disableLang = ref(false);
 const existingLangs = ref([]);
 
+// Content
+const typeOptions = [
+        {
+            label: "📄 Paragraph",
+            value: "paragraph",
+        },
+        {
+            label: "🥧 Pie Chart",
+            value: "pie-chart",
+            disabled: true,
+        },
+        {
+            label: "📈 Progress",
+            value: "progress",
+            disabled: true,
+        },
+]
+
 const modalMaxWidth = 'md';
 
 const loading = ref(false);
@@ -35,7 +53,7 @@ const formValue = ref({
         },
         tags: [],
         languages: [],
-        content: {}
+        content: []
       });
 
 function onCreate() {
@@ -44,6 +62,16 @@ function onCreate() {
         value: "",
         color: "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);}),
         text_color: "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);}),
+    };
+}
+
+function onCreateContent() {
+    return {
+        type: null,
+        header: "",
+        subheader: "",
+        data: "",
+        date: null,
     };
 }
 
@@ -123,7 +151,7 @@ onMounted(() => {
     
     <AuthenticatedLayout>
         <div class="py-3">
-            <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="max-w-full">
@@ -149,7 +177,7 @@ onMounted(() => {
                                             <n-date-picker v-model:value="formValue.record.end_date" format="dd-MM-yyyy" placeholder="Choose date" />
                                         </div>
                                     </n-form-item>
-                                    <div class="flex justify-between mb-3">
+                                    <div class="flex justify-between">
                                         <div>
                                             Tags
                                         </div>
@@ -159,13 +187,6 @@ onMounted(() => {
                                                     Selecting this option will remove any <strong>tags</strong> that have been made here.
                                                 </template>
                                             </ConfirmModal>
-                                            <n-switch 
-                                                size="large" 
-                                                :rubber-band="false"
-                                                :value="confirmTag"
-                                                :loading="loading"
-                                                @update:value="handleUpdateValue('tags')"
-                                            />
                                         </div>
                                     </div>
                                     <n-select 
@@ -179,6 +200,7 @@ onMounted(() => {
                                         placeholder="Select tags" 
                                     />
                                     <n-dynamic-input
+                                            class="mb-3"
                                             v-model:value="formValue.tags"
                                             item-style="margin-bottom: 0;"
                                             :on-create="onCreate"
@@ -246,7 +268,7 @@ onMounted(() => {
                                             </div>
                                         </div>
                                     </n-dynamic-input>
-                                    <div class="flex justify-between mb-3">
+                                    <div class="flex justify-between">
                                         <div>
                                             Languages
                                         </div>
@@ -256,13 +278,13 @@ onMounted(() => {
                                                     Selecting this option will remove any <strong>languages</strong> that have been made here.
                                                 </template>
                                             </ConfirmModal>
-                                            <n-switch 
+                                            <!-- <n-switch 
                                                 size="large" 
                                                 :rubber-band="false"
                                                 :value="confirmLang"
                                                 :loading="loading"
                                                 @update:value="handleUpdateValue('langs')"
-                                            />
+                                            /> -->
                                         </div>
                                     </div>
                                     <n-select 
@@ -276,6 +298,7 @@ onMounted(() => {
                                         placeholder="Select languages" 
                                     />
                                     <n-dynamic-input
+                                            class="mb-3"
                                             v-model:value="formValue.languages"
                                             item-style="margin-bottom: 0;"
                                             :on-create="onCreate"
@@ -331,6 +354,86 @@ onMounted(() => {
                                             </div>
                                         </div>
                                     </n-dynamic-input>
+
+                                    <div class="flex justify-between">
+                                        <div>
+                                            Content
+                                        </div>
+                                    </div>
+                                    <n-dynamic-input
+                                            class="mb-3"
+                                            v-model:value="formValue.content"
+                                            item-style="margin-bottom: 0;"
+                                            :on-create="onCreateContent"
+                                            #="{ index, value }"
+                                        >
+                                        <div class="flex">
+                                            <div class="mr-3 w-40">
+                                                <n-form-item
+                                                    ignore-path-change
+                                                    :show-label="false"
+                                                    :path="`content[${index}].type`"
+                                                >
+                                                    <n-select 
+                                                        v-model:value="formValue.content[index].type" :options="typeOptions" 
+                                                        size="medium"
+                                                        placeholder="Select type"
+                                                    />
+                                                </n-form-item>
+                                            </div>
+                                            <div class="mr-3">
+                                                <n-form-item
+                                                    ignore-path-change
+                                                    :show-label="false"
+                                                    :path="`content[${index}].header`"
+                                                >
+                                                    <n-input
+                                                        v-model:value="formValue.content[index].header"
+                                                        placeholder="Header (optional)"
+                                                        size="medium"
+                                                    />
+                                                </n-form-item>
+                                            </div>
+                                            <div class="mr-3 w-60">
+                                                <n-form-item
+                                                    ignore-path-change
+                                                    :show-label="false"
+                                                    :path="`content[${index}].subheader`"
+                                                >
+                                                    <n-input
+                                                        v-model:value="formValue.content[index].subheader"
+                                                        placeholder="Sub header (optional)"
+                                                        size="medium"
+                                                    />
+                                                </n-form-item>
+                                            </div>
+                                            <div class="mr-3 w-100">
+                                                <n-form-item
+                                                    ignore-path-change
+                                                    :show-label="false"
+                                                    :path="`content[${index}].data`"
+                                                >
+                                                    <n-input
+                                                        v-model:value="formValue.content[index].data"
+                                                        placeholder="Type text.."
+                                                        type="textarea"
+                                                    />
+                                                </n-form-item>
+                                            </div>
+                                            <div class="mr-3 w-40">
+                                                <n-form-item
+                                                    ignore-path-change
+                                                    :show-label="false"
+                                                    :path="`content[${index}].date`"
+                                                >
+                                                    <n-date-picker 
+                                                        v-model:value="formValue.content[index].date" format="dd-MM-yyyy" placeholder="Choose date" 
+                                                    />
+                                                </n-form-item>
+                                            </div>
+                                        </div>
+                                    </n-dynamic-input>
+
 
                                     <div class="flex justify-between">
                                         <div>
