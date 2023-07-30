@@ -47,29 +47,6 @@ function onCreate() {
     };
 }
 
-// const message = useMessage();
-
-function openDialog() {
-    
-    // const dialog = useDialog();
-
-    console.log(dialog);
-
-    //   dialogVisible.value = true;
-    dialog.warning({
-          title: "Confirm",
-          content: "Are you sure?",
-          positiveText: "Sure",
-          negativeText: "Not Sure",
-          onPositiveClick: () => {
-            message.success("Sure");
-          },
-          onNegativeClick: () => {
-            message.error("Not Sure");
-          }
-        });
-}
-
 function cancelChoice(type, confirmType) {
     loading.value = false;
 
