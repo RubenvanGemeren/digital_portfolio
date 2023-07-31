@@ -121,7 +121,7 @@ const projects = computed(() => {
             project.languages = JSON.parse(project.languages);
         }
 
-        return filterProjects(name.value, projectObject.name) 
+        return filterProjects(name.value, projectObject.name)
             && filterProjects(description.value, projectObject.description)
             && filterProjects(tags.value, projectObject.tags)
             && filterProjects(langs.value, projectObject.languages);
@@ -132,8 +132,8 @@ function filterProjects(value, object) {
 
     if (value.length === 0 || (object == null && value.length === 0)) {
         return true;
-    } 
-    
+    }
+
     if (object != null) {
         if (typeof object == 'object') {
             return object.includes(value)
@@ -162,7 +162,7 @@ function filterProjects(value, object) {
                                 <n-collapse-item name="1">
                                     <template #header>
                                         <div class="text-green-600 text-base font-bold">
-                                            Advanced Filters 
+                                            Advanced Filters
                                         </div>
                                     </template>
                                     <div class="mb-3">
@@ -180,7 +180,7 @@ function filterProjects(value, object) {
                                 </n-collapse-item>
                             </n-collapse>
                         </n-space>
-                    </div> 
+                    </div>
                 </div>
                 <div class="bg-white mt-6 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
@@ -230,14 +230,14 @@ function filterProjects(value, object) {
                                             <div class="flex">
                                                 <div v-if="project.tags !== null" v-for="tags in project.tags">
                                                     <div class="ml-2">
-                                                        <n-tag :color="{ color: tags.color, textColor: tags.textColor }" round :bordered="false">
+                                                        <n-tag :color="{ color: tags.color, textColor: tags.text_olor }" round :bordered="false">
                                                             {{ tags.label }}
                                                         </n-tag>
                                                     </div>
                                                 </div>
                                                 <div v-if="project.languages !== null" v-for="languages in project.languages">
                                                     <div class="ml-2">
-                                                        <n-tag :color="{ color: languages.color, textColor: languages.textColor }" round :bordered="false">
+                                                        <n-tag :color="{ color: languages.color, textColor: languages.text_color }" round :bordered="false">
                                                             {{ languages.label }}
                                                         </n-tag>
                                                     </div>
@@ -260,7 +260,7 @@ function filterProjects(value, object) {
 
                                         footer
 
-                                        
+
                                     </n-card>
                                 </a>
                             </div>
