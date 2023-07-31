@@ -86,10 +86,11 @@ const langItems = [
 // lifecycle hooks
 onMounted(() => {
     setTimeout( () => {
-        axios.get('/test')
+        axios.get(route('project.index'))
         .then(function (response) {
             response.data.forEach(item => {
                 // handle success
+                // console.log(item);
                 projectData.value.push(item);
             });
 
@@ -106,18 +107,21 @@ onMounted(() => {
 // a computed ref
 const projects = computed(() => {
     return projectData.value.filter((project) => {
-        if (projectSearch.value.length != 0) {
-            const cleanProject = JSON.parse(JSON.stringify(project));
+        console.log(project.name);
+        // if (projectSearch.value.length != 0) {
+        //     const cleanProject = JSON.parse(JSON.stringify(project));
 
-            const flatProjectArray = Object.values(cleanProject).flat();
+        //     const flatProjectArray = Object.values(cleanProject).flat();
     
-            return flatProjectArray.some((x) => x.toString().includes(projectSearch.value));
-        }
+        //     return flatProjectArray.some((x) => x.toString().includes(projectSearch.value));
+        // }
 
-        return project.name.toLowerCase().includes(name.value.toLowerCase()) 
-            && project.description.toLowerCase().includes(description.value.toLowerCase())
-            && project.tags.some(includesTag)
-            && project.langs.some(includesLang);
+        // return true;
+
+        return project.name.toLowerCase().includes(name.value.toLowerCase());
+        //     && project.description.toLowerCase().includes(description.value.toLowerCase())
+        //     && project.tags.some(includesTag)
+        //     && project.langs.some(includesLang);
     });
 })
 
@@ -204,7 +208,6 @@ function includesLang(element, index, array) {
                                 </template>
                             </n-empty>
                         </div>
-
                         <!-- Display projects -->
                         <transition-group name="list" tag="ul">
                             <div class="mb-4" v-if="projects !== null" v-for="project in projects" :key="project.id">
