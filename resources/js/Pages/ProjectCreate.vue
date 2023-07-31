@@ -49,12 +49,10 @@ const projectData = ref([]);
 // Form
 const formRef = ref(null);
 const formValue = ref({
-        record: {
-            name: "",
-            description: "",
-            start_date: null,
-            end_date: null,
-        },
+        name: "",
+        description: "",
+        start_date: null,
+        end_date: null,
         tags: [],
         languages: [],
         content: []
@@ -211,7 +209,7 @@ function handleUpdateValue(type) {
 
 function clearEndDate() {
     if (active) {
-        formValue.value.record.end_date = null;
+        formValue.value.end_date = null;
     }
     return;
 }
@@ -260,21 +258,21 @@ onMounted(() => {
                                 @submit.prevent="submit"
                             >
                                 <n-space vertical>
-                                    <n-form-item label="Name" path="record.name">
-                                        <n-input v-model:value="formValue.record.name" placeholder="Input Name" />
+                                    <n-form-item label="Name" path="name">
+                                        <n-input v-model:value="formValue.name" placeholder="Input Name" />
                                     </n-form-item>
-                                    <n-form-item label="Description" path="record.age">
-                                        <n-input v-model:value="formValue.record.description" placeholder="Input description (optional)" />
+                                    <n-form-item label="Description" path="age">
+                                        <n-input v-model:value="formValue.description" placeholder="Input description (optional)" />
                                     </n-form-item>
-                                    <n-form-item label="Start Date" path="record.start_date">
+                                    <n-form-item label="Start Date" path="start_date">
                                         <div class="w-full">
-                                            <n-date-picker actions="['now', 'clear']" v-model:value="formValue.record.start_date" format="dd-MM-yyyy" placeholder="Choose date">
+                                            <n-date-picker actions="['now', 'clear']" v-model:value="formValue.start_date" format="dd-MM-yyyy" placeholder="Choose date">
                                             </n-date-picker>
                                         </div>
                                     </n-form-item>
-                                    <n-form-item label="End Date" path="record.end_date">
+                                    <n-form-item label="End Date" path="end_date">
                                         <div class="w-full">
-                                            <n-date-picker actions="['now', 'clear']" :disabled="active" v-model:value="formValue.record.end_date" format="dd-MM-yyyy" placeholder="Choose date" >
+                                            <n-date-picker actions="['now', 'clear']" :disabled="active" v-model:value="formValue.end_date" format="dd-MM-yyyy" placeholder="Choose date" >
                                             </n-date-picker>
                                         </div>
                                         <n-tooltip :show-arrow="false">
@@ -563,7 +561,7 @@ onMounted(() => {
                                             <n-tooltip :disabled="!disableForm" placement="left">
                                                 <template #trigger>
                                                     <n-button 
-                                                        :disabled="disableForm"
+                                                        
                                                         @click=""
                                                         ghost 
                                                         strong 
