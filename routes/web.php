@@ -36,7 +36,7 @@ Route::get('/home', function () {
 
 Route::resource('/project', ProjectController::class)->middleware(['auth', 'verified']);
 
-Route::get('/project/create', [ProjectController::class, 'create'])->middleware(['auth', 'verified'])->name('project.create');
+// Route::get('/project/create', [ProjectController::class, 'create'])->middleware(['auth', 'verified'])->name('project.create');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
