@@ -13,7 +13,7 @@ class ProjectController extends Controller
      */
     public function index()
     {   
-        //
+        return Project::get();
     }
 
     /**
@@ -31,7 +31,32 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        return to_route('home');
+        try {
+            // dd($request->_value->validate);
+            $validated = $request->validate([
+                '_value.name' => ['required'],
+                '_value.description' => ['nullable','max:255'],
+                '_value.start_date' => ['required'],
+                '_value.end_date' => ['nullable'],
+                '_value.tags' => ['nullable'],
+                '_value.languages' => ['nullable'],
+                '_value.content' => ['nullable'],
+            ]);
+
+            // dd($validated['_value']['end_date']);
+            $validated['_value']['start_date'] = date("Y-m-d H:i:s", $validated['_value']['start_date'] / 1000) ?? null;
+            $validated['_value']['end_date'] = date("Y-m-d H:i:s", $validated['_value']['end_date'] / 1000) ?? null;
+            $validated['_value']['tags'] = json_encode($validated['_value']['tags']);
+            $validated['_value']['languages'] = json_encode($validated['_value']['languages']);
+            $validated['_value']['content'] = json_encode($validated['_value']['content']);
+
+            Project::updateOrCreate($validated['_value']);
+
+            return to_route('home');
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
+        Project::create($request->validate());
     }
 
     /**
