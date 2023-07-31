@@ -2,7 +2,7 @@
 import { ref, onMounted, computed, h } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { NSpace, NInput, NCard, NAlert, NSelect, NTag, NCollapse, NCollapseItem, NIcon, NEmpty, NButton } from 'naive-ui';
+import { NSpace, NInput, NCard, NText, NAlert, NDivider ,NThing, NSelect, NTag, NCollapse, NCollapseItem, NIcon, NEmpty, NButton } from 'naive-ui';
 import { MoodSad, SquarePlus } from '@vicons/tabler';
 
 // reactive state
@@ -113,6 +113,14 @@ const projects = computed(() => {
             return filterProjects(projectSearch.value, projectObject.name);
         }
 
+        if (project.tags != null && typeof project.tags != 'object') {
+            project.tags = JSON.parse(project.tags);
+        }
+
+        if (project.languages != null && typeof project.languages != 'object') {
+            project.languages = JSON.parse(project.languages);
+        }
+
         return filterProjects(name.value, projectObject.name) 
             && filterProjects(description.value, projectObject.description)
             && filterProjects(tags.value, projectObject.tags)
@@ -121,14 +129,17 @@ const projects = computed(() => {
 })
 
 function filterProjects(value, object) {
-    console.log(value, object);
 
     if (value.length === 0 || (object == null && value.length === 0)) {
         return true;
     } 
     
     if (object != null) {
-        return object.includes(value)
+        if (typeof object == 'object') {
+            return object.includes(value)
+        } else {
+            return object.toLowerCase().includes(value.toLowerCase())
+        }
     } else {
         return false;
     }
@@ -210,9 +221,46 @@ function filterProjects(value, object) {
                                 <a :href="'projects/' + project.id">
                                     <n-card hoverable>
                                         <template #header>
-                                            {{ project.name }}
+                                            <div class="text-2xl">
+                                                {{ project.name }}
+                                            </div>
                                         </template>
-                                        {{ project.description }}
+
+                                        <template #header-extra>
+                                            <div class="flex">
+                                                <div v-if="project.tags !== null" v-for="tags in project.tags">
+                                                    <div class="ml-2">
+                                                        <n-tag :color="{ color: tags.color, textColor: tags.textColor }" round :bordered="false">
+                                                            {{ tags.label }}
+                                                        </n-tag>
+                                                    </div>
+                                                </div>
+                                                <div v-if="project.languages !== null" v-for="languages in project.languages">
+                                                    <div class="ml-2">
+                                                        <n-tag :color="{ color: languages.color, textColor: languages.textColor }" round :bordered="false">
+                                                            {{ languages.label }}
+                                                        </n-tag>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <div class="text-md">
+                                            <div v-if="project.description">
+                                                {{ project.description }}
+                                            </div>
+                                            <div v-else>
+                                                <n-text italic depth="3">
+                                                    No description given
+                                                </n-text>
+                                            </div>
+                                        </div>
+
+                                        <n-divider />
+
+                                        footer
+
+                                        
                                     </n-card>
                                 </a>
                             </div>
