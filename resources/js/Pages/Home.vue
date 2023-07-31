@@ -107,36 +107,31 @@ onMounted(() => {
 // a computed ref
 const projects = computed(() => {
     return projectData.value.filter((project) => {
-        console.log(project.name);
-        // if (projectSearch.value.length != 0) {
-        //     const cleanProject = JSON.parse(JSON.stringify(project));
+        const projectObject = JSON.parse(JSON.stringify(project));
 
-        //     const flatProjectArray = Object.values(cleanProject).flat();
-    
-        //     return flatProjectArray.some((x) => x.toString().includes(projectSearch.value));
-        // }
+        if (projectSearch.value.length > 0 ) {
+            return filterProjects(projectSearch.value, projectObject.name);
+        }
 
-        // return true;
-
-        return project.name.toLowerCase().includes(name.value.toLowerCase());
-        //     && project.description.toLowerCase().includes(description.value.toLowerCase())
-        //     && project.tags.some(includesTag)
-        //     && project.langs.some(includesLang);
+        return filterProjects(name.value, projectObject.name) 
+            && filterProjects(description.value, projectObject.description)
+            && filterProjects(tags.value, projectObject.tags)
+            && filterProjects(langs.value, projectObject.languages);
     });
 })
 
-function includesTag(element, index, array) {
-    if (tags.value.length == 0) {
-        return true;
-    }
-    return tags.value.includes(element);
-}
+function filterProjects(value, object) {
+    console.log(value, object);
 
-function includesLang(element, index, array) {
-    if (langs.value == 0) {
+    if (value.length === 0 || (object == null && value.length === 0)) {
         return true;
+    } 
+    
+    if (object != null) {
+        return object.includes(value)
+    } else {
+        return false;
     }
-    return langs.value.includes(element);
 }
 
 </script>
