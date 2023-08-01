@@ -3,7 +3,7 @@ import { ref, onMounted, computed, h } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { NSpace, NInput, NCard, NText, NAlert, NDivider ,NThing, NSelect, NTag, NCollapse, NCollapseItem, NIcon, NEmpty, NButton } from 'naive-ui';
-import { MoodSad, SquarePlus } from '@vicons/tabler';
+import { MoodSad, SquarePlus, Edit, Trash } from '@vicons/tabler';
 
 // reactive state
 const projectData = ref([]);
@@ -89,8 +89,18 @@ onMounted(() => {
         axios.get(route('project.index'))
         .then(function (response) {
             response.data.forEach(item => {
-                // handle success
-                // console.log(item);
+                console.log(Date.parse(item.start_date));
+
+                const newStartDate = new Date(Date.parse(item.start_date));
+
+                item.start_date = newStartDate.toLocaleDateString("nl-NL");
+
+                if (item.end_date != null) {
+                    const newEndDate = new Date(Date.parse(item.end_date));
+
+                    item.end_date = newEndDate.toLocaleDateString("nl-NL");
+                }
+
                 projectData.value.push(item);
             });
 
@@ -189,8 +199,8 @@ function filterProjects(value, object) {
                                 <n-input size="large" v-model:value="projectSearch" type="text" round clearable :loading="loading" :disabled="loading" placeholder="Search projects" />
                             </div>
                             <div>
-                                <n-button tag="a" :href="route('project.create')" strong dashed round type="primary" size="small">
-                                    Add project
+                                <n-button tag="a" :href="route('project.create')" strong dashed round type="primary" size="medium">
+                                    New
                                     <template #icon>
                                         <n-icon size="20">
                                             <SquarePlus />
@@ -218,11 +228,25 @@ function filterProjects(value, object) {
                         <transition-group name="list" tag="ul">
                             <div class="mb-4" v-if="projects !== null" v-for="project in projects" :key="project.id">
                                 <!-- Create loading icon -->
-                                <a :href="'projects/' + project.id">
+                                <a :href="'project/' + project.id">
                                     <n-card hoverable>
                                         <template #header>
                                             <div class="text-2xl">
                                                 {{ project.name }}
+                                            </div>
+                                            <div class="text-xs text-gray-500 flex">
+                                                <div>
+                                                    {{ project.start_date }}
+                                                </div>
+                                                <div class="mx-1">
+                                                    -
+                                                </div>
+                                                <div v-if="project.end_date">
+                                                    {{ project.end_date }}
+                                                </div>
+                                                <div v-else>
+                                                    Present
+                                                </div>
                                             </div>
                                         </template>
 
@@ -257,10 +281,28 @@ function filterProjects(value, object) {
                                         </div>
 
                                         <n-divider />
-
-                                        footer
-
-
+                                        <div v-if="$page.props.auth.user.name" class="flex justify-end">
+                                            <div>
+                                                <n-button tag="a" :href="route('project.edit', project.id)" tertiary strong round type="warning" size="small">
+                                                    Edit
+                                                    <template #icon>
+                                                        <n-icon size="20">
+                                                            <Edit />
+                                                        </n-icon>
+                                                    </template>
+                                                </n-button>
+                                            </div>
+                                            <div class="ml-1">
+                                                <n-button tag="a" :href="route('project.destroy')" tertiary strong round type="error" size="small">
+                                                    Delete
+                                                    <template #icon>
+                                                        <n-icon size="20">
+                                                            <Trash />
+                                                        </n-icon>
+                                                    </template>
+                                                </n-button>
+                                            </div>
+                                        </div>
                                     </n-card>
                                 </a>
                             </div>
