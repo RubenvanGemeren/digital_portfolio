@@ -12,7 +12,7 @@ class ProjectController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   
+    {
         return Project::get();
     }
 
@@ -72,7 +72,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        dd($project);
     }
 
     /**
@@ -88,6 +88,6 @@ class ProjectController extends Controller
      */
     public function destroy(Request $request)
     {
-        //
+        dd($request);
     }
 }
