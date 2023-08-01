@@ -35,6 +35,7 @@ Route::get('/home', function () {
 })->middleware(['auth', 'verified'])->name('home');
 
 Route::resource('/project', ProjectController::class)->middleware(['auth', 'verified']);
+Route::delete('/project', [ProjectController::class, 'destroy'])->name('project.destroy')->middleware(['auth', 'verified']);
 
 // Route::get('/project/create', [ProjectController::class, 'create'])->middleware(['auth', 'verified'])->name('project.create');
 
