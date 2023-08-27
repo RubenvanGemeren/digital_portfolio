@@ -23,7 +23,7 @@ class ProjectController extends Controller
     {
         $model = Project::make();
 
-        return Inertia::render('ProjectCreate');
+        return Inertia::render('ProjectCreate', $model);
     }
 
     /**
@@ -72,7 +72,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        dd($project);
+        return Inertia::render('ProjectCreate', [
+            'record' => $project,
+        ]);
     }
 
     /**

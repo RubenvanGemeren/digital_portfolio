@@ -6,6 +6,17 @@ import { Check, Ban } from '@vicons/tabler';
 import { Head, router } from '@inertiajs/vue3';
 import { NSpace, NInput, NCard, NAlert, NSelect, NTag, NCollapse, NCollapseItem, NIcon, NEmpty, NButton, NForm, NFormItem, NDatePicker, NDynamicInput, NColorPicker, NSwitch, useDialog, NTooltip } from 'naive-ui';
 
+const props = defineProps({
+    record: {
+        type: Object,
+        required: true,
+    },
+});
+
+const record = computed(() => {
+    return props.record;
+});
+
 const disableForm = ref(true);
 
 const active = ref(false);
@@ -49,13 +60,13 @@ const projectData = ref([]);
 // Form
 const formRef = ref(null);
 const formValue = ref({
-        name: "",
-        description: "",
-        start_date: null,
-        end_date: null,
-        tags: [],
+        name: props.record.name,
+        description: props.record.description,
+        start_date: parseInt((new Date(props.record.start_date).getTime() / 1000).toFixed(0)) * 1000,
+        end_date: parseInt((new Date(props.record.end_date).getTime() / 1000).toFixed(0)) * 1000,
+        tags: props.record.tags,
         languages: [],
-        content: []
+        content: [],
       });
 
 const railStyle = ({
@@ -118,7 +129,7 @@ const rules = {
             },
             trigger: 'blur',
         },
-    } 
+    }
 }
 
 const dynamicInputLabelRule = {
@@ -243,13 +254,14 @@ onMounted(() => {
 
 <template>
     <Head title="Home" />
-    
+
     <AuthenticatedLayout>
         <div class="py-3">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="max-w-full">
+                            {{ props.record.tags }}
                             <n-form
                                 ref="formRef"
                                 :model="formValue"
@@ -301,14 +313,14 @@ onMounted(() => {
                                             </ConfirmModal>
                                         </div>
                                     </div>
-                                    <n-select 
+                                    <n-select
                                         size="medium"
-                                        v-model:value="tags" 
-                                        multiple 
+                                        v-model:value="tags"
+                                        multiple
                                         :options="tagItems"
-                                        clearable 
-                                        :loading="loading" 
-                                        :disabled="loading" 
+                                        clearable
+                                        :loading="loading"
+                                        :disabled="loading"
                                         placeholder="Select tags"
                                     />
                                     <n-dynamic-input
@@ -354,7 +366,7 @@ onMounted(() => {
                                                     :path="`tags[${index}].color`"
                                                     :rule="dynamicInputLabelRule"
                                                 >
-                                                    <n-color-picker 
+                                                    <n-color-picker
                                                         v-model:value="formValue.tags[index].color"
                                                         :modes="['hex']"
                                                         :disabled="disableTag"
@@ -368,10 +380,10 @@ onMounted(() => {
                                                     :path="`tags[${index}].text_color`"
                                                     :rule="dynamicInputLabelRule"
                                                 >
-                                                    <n-color-picker 
+                                                    <n-color-picker
                                                         :disabled="disableTag"
-                                                        v-model:value="formValue.tags[index].text_color" 
-                                                        :modes="['hex']" 
+                                                        v-model:value="formValue.tags[index].text_color"
+                                                        :modes="['hex']"
                                                         :swatches="[ '#FFFFFF', '#000000']"
                                                     />
                                                 </n-form-item>
@@ -393,8 +405,8 @@ onMounted(() => {
                                                     Selecting this option will remove any <strong>languages</strong> that have been made here.
                                                 </template>
                                             </ConfirmModal>
-                                            <!-- <n-switch 
-                                                size="large" 
+                                            <!-- <n-switch
+                                                size="large"
                                                 :rubber-band="false"
                                                 :value="confirmLang"
                                                 :loading="loading"
@@ -402,15 +414,15 @@ onMounted(() => {
                                             /> -->
                                         </div>
                                     </div>
-                                    <n-select 
+                                    <n-select
                                         size="medium"
-                                        v-model:value="tags" 
-                                        multiple 
+                                        v-model:value="tags"
+                                        multiple
                                         :options="tagItems"
-                                        clearable 
-                                        :loading="loading" 
-                                        :disabled="loading" 
-                                        placeholder="Select languages" 
+                                        clearable
+                                        :loading="loading"
+                                        :disabled="loading"
+                                        placeholder="Select languages"
                                     />
                                     <n-dynamic-input
                                             class="mb-3"
@@ -493,8 +505,8 @@ onMounted(() => {
                                                         :path="`content[${index}].type`"
                                                         :rule="dynamicInputLabelRule"
                                                     >
-                                                        <n-select 
-                                                            v-model:value="formValue.content[index].type" :options="typeOptions" 
+                                                        <n-select
+                                                            v-model:value="formValue.content[index].type" :options="typeOptions"
                                                             size="medium"
                                                             placeholder="Select type"
                                                         />
@@ -533,8 +545,8 @@ onMounted(() => {
                                                         :path="`content[${index}].date`"
                                                         :rule="dynamicInputLabelRule"
                                                     >
-                                                        <n-date-picker 
-                                                            v-model:value="formValue.content[index].date" format="dd-MM-yyyy" placeholder="Choose date" 
+                                                        <n-date-picker
+                                                            v-model:value="formValue.content[index].date" format="dd-MM-yyyy" placeholder="Choose date"
                                                         />
                                                     </n-form-item>
                                                 </div>
@@ -560,12 +572,12 @@ onMounted(() => {
                                         <div>
                                             <n-tooltip :disabled="!disableForm" placement="left">
                                                 <template #trigger>
-                                                    <n-button 
-                                                        
+                                                    <n-button
+
                                                         @click=""
-                                                        ghost 
-                                                        strong 
-                                                        round 
+                                                        ghost
+                                                        strong
+                                                        round
                                                         type="primary"
                                                         attr-type="submit"
                                                         size="small"
