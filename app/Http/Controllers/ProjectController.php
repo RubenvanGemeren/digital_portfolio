@@ -23,7 +23,9 @@ class ProjectController extends Controller
     {
         $model = Project::make();
 
-        return Inertia::render('ProjectCreate', $model);
+        return Inertia::render('ProjectCreate', [
+            'record' => $model,
+        ]);
     }
 
     /**

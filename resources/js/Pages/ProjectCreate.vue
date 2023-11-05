@@ -62,8 +62,8 @@ const formRef = ref(null);
 const formValue = ref({
         name: props.record.name,
         description: props.record.description,
-        start_date: parseInt((new Date(props.record.start_date).getTime() / 1000).toFixed(0)) * 1000,
-        end_date: parseInt((new Date(props.record.end_date).getTime() / 1000).toFixed(0)) * 1000,
+        start_date: convertTime(props.record.start_date),
+        end_date: convertTime(props.record.end_date),
         tags: props.record.tags,
         languages: [],
         content: [],
@@ -228,6 +228,10 @@ function clearEndDate() {
 function submit() {
     console.log(formValue.value);
     router.post(route('project.store'), formValue);
+}
+
+function convertTime(time) {
+    time == null ? null : parseInt((new Date(time).getTime() / 1000).toFixed(0)) * 1000
 }
 
 // lifecycle hooks
