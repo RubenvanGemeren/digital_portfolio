@@ -278,7 +278,7 @@ onMounted(() => {
                                         <n-input v-model:value="formValue.name" placeholder="Input Name" />
                                     </n-form-item>
                                     <n-form-item label="Description" path="age">
-                                        <n-input v-model:value="formValue.description" placeholder="Input description (optional)" />
+                                        <n-input type="textarea" v-model:value="formValue.description" placeholder="Input description (optional)" />
                                     </n-form-item>
                                     <n-form-item label="Start Date" path="start_date">
                                         <div class="w-full">
